@@ -1,0 +1,43 @@
+# The job name `validate` is the required status check of the `main` ruleset. Do not rename it.
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  # Keep these in sync with the versions the release automation uses to validate this catalog.
+  NODE_VERSION: 22.22.0
+  CLAUDE_CODE_VERSION: 2.1.291
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install Claude Code CLI
+        run: |
+          npm install --global --no-audit --no-fund "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+          claude --version
+      # Validate the marketplace root and every plugin directory, and report all failures.
+      - name: claude plugin validate --strict
+        run: |
+          shopt -s nullglob
+          status=0
+          for dir in . plugins/*/; do
+            echo "::group::${dir}"
+            claude plugin validate --strict "$dir" || status=1
+            echo "::endgroup::"
+          done
+          exit "$status"

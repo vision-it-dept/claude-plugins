@@ -1,0 +1,72 @@
+name: Bug or false positive
+description: Report a bug, a false positive or missed finding, or guidance that could harm the target system.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Support is best effort.** We do not guarantee a response or a fix.
+
+        **Found a vulnerability in a plugin itself?** Do not open an issue. Report it privately as described in [SECURITY.md](https://github.com/vision-it-dept/claude-plugins/blob/main/SECURITY.md).
+
+        Write in English or Japanese. (日本語で書いても構いません。)
+
+        This issue is public. Do not include hostnames, URLs, credentials, or findings about the systems you assessed. Mask them before posting.
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin is this about?
+      options:
+        - security-audit
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - Bug
+        - False positive
+        - Missed finding (false negative)
+        - Guidance that could harm the target system
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: Run `claude plugin list` to see it.
+      placeholder: e.g. 1.1.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Claude Code version and OS
+      description: Run `claude --version`.
+      placeholder: e.g. 2.1.291 (Claude Code), macOS 15
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Which skill you used, what it did or said, and the masked output if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Leave blank if you cannot reproduce it.
+  - type: checkboxes
+    id: confidentiality
+    attributes:
+      label: Confidentiality
+      options:
+        - label: This issue contains no hostnames, URLs, credentials, or findings about the systems I assessed.
+          required: true

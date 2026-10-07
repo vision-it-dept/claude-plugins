@@ -1,0 +1,41 @@
+name: Question
+description: Ask a question about installing or using a plugin.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Support is best effort.** We do not guarantee a response.
+
+        **Found a vulnerability in a plugin itself?** Do not open an issue. Report it privately as described in [SECURITY.md](https://github.com/vision-it-dept/claude-plugins/blob/main/SECURITY.md).
+
+        Write in English or Japanese. (日本語で書いても構いません。)
+
+        This issue is public. Do not include hostnames, URLs, credentials, or findings about the systems you assessed. Mask them before posting.
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      description: Which plugin is this about?
+      options:
+        - security-audit
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      description: Run `claude plugin list` to see it. Leave blank if the plugin is not installed yet.
+      placeholder: e.g. 1.1.0
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
+  - type: checkboxes
+    id: confidentiality
+    attributes:
+      label: Confidentiality
+      options:
+        - label: This issue contains no hostnames, URLs, credentials, or findings about the systems I assessed.
+          required: true

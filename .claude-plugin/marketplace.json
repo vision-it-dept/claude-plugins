@@ -1,0 +1,9 @@
+{
+  "name": "vision-net",
+  "owner": {
+    "name": "Vision Inc.",
+    "url": "https://vision-net.co.jp"
+  },
+  "description": "Claude Code plugins published by Vision Inc.",
+  "plugins": []
+}
